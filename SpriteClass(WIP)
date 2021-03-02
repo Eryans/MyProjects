@@ -37,6 +37,10 @@ namespace Game2
             spriteType = argType;
             texture = argTexture;
             position = new Vector2();
+            if (spriteType == SpriteType.Animated)
+            {
+                throw new Exception("Animated Sprite need tile Width/Height argument");
+            }
         }
         public Sprite(SpriteType argType, Texture2D argTexture,int argTileWidth,int argTileHeight)
         {
