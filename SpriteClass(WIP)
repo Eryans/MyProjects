@@ -6,8 +6,9 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-//Simple Sprite Manager for my Monogame 3.8 Projects
+//Simple Sprite Class(WIP) for my Monogame 3.8 Projects
 //Made by Jules Noir--Vermeulen
+//Feel free to use :D
 namespace Game2
 {
     public enum SpriteType
@@ -39,7 +40,6 @@ namespace Game2
             spriteType = argType;
             texture = argTexture;
             position = new Vector2();
-            Game1.spriteList.Add(this);
         }
         public Sprite(SpriteType argType, Texture2D argTexture,int argTileWidth,int argTileHeight)
         {
@@ -48,7 +48,6 @@ namespace Game2
             position = new Vector2();
             tileWidth = argTileWidth;
             tileHeight = argTileHeight;
-            Game1.spriteList.Add(this);
         }
 
         public void Update()
@@ -90,8 +89,6 @@ namespace Game2
         {
             float speed = argSpeed;
             currentFrame += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Debug.WriteLine("CURRENTFRAME : " + (float)Math.Floor(currentFrame));
-            Debug.WriteLine("TOTALFRAME : " + totalFrame);
         }
     }
 }
