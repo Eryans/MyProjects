@@ -1,1 +1,97 @@
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+//Simple Sprite Manager for my Monogame 3.8 Projects
+//Made by Jules Noir--Vermeulen
+namespace Game2
+{
+    public enum SpriteType
+    {
+        Fix,
+        Animated,
+        Sheet
+    }
+    public class Sprite
+    {
+        private Vector2 position;
+
+        public Texture2D texture;
+        
+        private SpriteType spriteType;
+
+        private float _currentFrame;
+
+        public int height { get { return texture.Height; } }
+        public int width { get { return texture.Width; } }
+        private int tileWidth { get; set; }
+        private int tileHeight { get; set; }
+        public int row { get { return height / tileHeight; } }
+        public int column { get { return width / tileWidth; } }
+        public float currentFrame { get { return _currentFrame; } set { _currentFrame = value; if (value >= totalFrame) _currentFrame = 0; } }
+        public int totalFrame { get { return row * column; } }
+        public Sprite(SpriteType argType, Texture2D argTexture)
+        {
+            spriteType = argType;
+            texture = argTexture;
+            position = new Vector2();
+            Game1.spriteList.Add(this);
+        }
+        public Sprite(SpriteType argType, Texture2D argTexture,int argTileWidth,int argTileHeight)
+        {
+            spriteType = argType;
+            texture = argTexture;
+            position = new Vector2();
+            tileWidth = argTileWidth;
+            tileHeight = argTileHeight;
+            Game1.spriteList.Add(this);
+        }
+
+        public void Update()
+        {
+        }
+
+        public void Draw(SpriteBatch _spriteBatch)
+        {
+            switch (spriteType)
+            {
+                case SpriteType.Fix:
+                    {
+                        _spriteBatch.Draw(texture, position, Color.White);
+                        break;
+                    }
+                case SpriteType.Animated:
+                    {
+                        Rectangle sourceRectangle = new Rectangle((int)Math.Floor(currentFrame / row) * tileWidth, (int)Math.Floor(currentFrame / column) * tileHeight, tileWidth, tileHeight);
+                        Rectangle DestinationRectangle = new Rectangle((int)position.X, (int)position.Y, tileWidth, tileHeight);
+                        _spriteBatch.Draw(texture, DestinationRectangle, sourceRectangle, Color.White);
+                        break;
+                    }
+            }
+        }
+        public void Move(float x,float y)
+        {
+            position.X += x;
+            position.Y += y;
+        }
+        public void Move(Vector2 argVector)
+        {
+            position += argVector;
+        }
+        public void SetPosition(Vector2 argVector)
+        {
+            position = argVector;
+        }
+        public void Play(GameTime gameTime, float argSpeed)
+        {
+            float speed = argSpeed;
+            currentFrame += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Debug.WriteLine("CURRENTFRAME : " + (float)Math.Floor(currentFrame));
+            Debug.WriteLine("TOTALFRAME : " + totalFrame);
+        }
+    }
+}
