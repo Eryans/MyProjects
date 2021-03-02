@@ -12,8 +12,7 @@ namespace Game2
     public enum SpriteType
     {
         Fix,
-        Animated,
-        Sheet
+        Animated
     }
     public class Sprite
     {
